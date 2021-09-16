@@ -1,16 +1,17 @@
-FROM python:3.6-buster
+FROM python:3.6
 
-RUN pip install jupyter wand && \
-	mkdir /tmp/myqlm && \
-	cd /tmp/myqlm && \
-	wget https://myqlm.github.io/distrib/myqlm-0.0.7_linux_py3.6.zip && unzip myqlm-0.0.7_linux_py3.6.zip  && \
-	pip install ./qat_comm-0.0.7-py3.6-none-linux_x86_64.whl ./qat_core-0.0.7-py3.6-none-linux_x86_64.whl \
-		./qat_lang-0.0.7-py3.6-none-linux_x86_64.whl ./qat_variational-0.0.7-py3.6-none-linux_x86_64.whl \ 
-		./myqlm_simulators-0.0.7-py3-none-any.whl && mkdir /myqlm && mv ./license /myqlm/ && cd /myqlm/license/ && \
-		rm -rf /tmp/myqlm && unzip EULA.zip && rm EULA.zip
+RUN pip install jupyter wand myqlm 
 
 RUN python -m qat.magics.install
 
-WORKDIR /myqlm
+RUN pip install myqlm-interop[all]
+
+RUN cd / && git clone https://github.com/myQLM/myqlm-notebooks.git
+
+RUN mkdir /myqlm-notebooks/tutorials/QFT
+
+COPY notebooks/* /myqlm-notebooks/tutorials/QFT/
+
+WORKDIR /myqlm-notebooks 
 
 CMD ["jupyter","notebook","--port=8899","--ip=0.0.0.0","--allow-root"]
