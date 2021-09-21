@@ -10,12 +10,12 @@ docker build . -t myqlm
 
 ## Running the container
 ```
-docker run -it --rm -p 8899:8899 -v$PWD/notebooks:/myqlm/notebooks myqlm
+docker run -it --rm -p 8899:8899 myqlm
 ```
 
 ## Alternate running : using the image built on dockerhub
 ```
-docker run -it --rm -p 8899:8899 -v$PWD/notebooks:/myqlm/notebooks gfccosta/myqlm:r1
+docker run -it --rm -p 8899:8899 gfccosta/myqlm
 ```
 ## Documentation about the myQLM
 https://myqlm.github.io/
